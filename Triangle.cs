@@ -8,27 +8,30 @@ namespace trianglePetrov
 {
     class Triangle
     {
-#pragma warning disable IDE0044 // добавить использования для  углов
-        private double a,b,c,h, alpha, beta, gamma;
-        private bool pryamoiUgol;
-#pragma warning restore IDE0044 
+        private double a,b,c,h;
+        //private double alpha, gamma, beta;
+        private string type;
+        private bool right;
         public Triangle(double A, double B, double C)
         {
             a = A;
             b = B;
             c = C;
         }
-        public Triangle(double A, double B, double C, double H)
+        public Triangle(double A, double H, string Type, bool Right)
         {
             a = A;
-            b = B;
-            c = C;
             h = H;
+            type = Type;
+            right = Right;
         }
         public Triangle() { }
         public double Perimeter()
         {
-            return a+b+c;
+            if (a != 0.0 && b != 0.0 && c != 0.0) return a + b + c;
+            else if (a != 0.0 && h != 0.0 && right) return Math.Sqrt(Math.Pow(a, 2) + Math.Pow(h, 2)) + a + h;
+            else if (a != 0.0 && type == "ravno") return Math.Pow(a, 3);
+            else return 0.0;
         }
         public double Area()
         {
@@ -41,7 +44,7 @@ namespace trianglePetrov
                 double p = Perimeter() / 2;
                 return Math.Sqrt((p * (p - a) * (p - b) * (p - c)));
             }
-            else if (alpha != 0.0 && a != 0.0 && b != 0.0)
+            /*else if (alpha != 0.0 && a != 0.0 && b != 0.0)
             {
                 return (a * b) / 2 * Math.Sin(alpha);
             }
@@ -52,30 +55,49 @@ namespace trianglePetrov
             else if (gamma != 0.0 && c != 0.0 && b != 0.0)
             {
                 return (c * b) / 2 * Math.Sin(gamma);
-            }
-            else if (pryamoiUgol)
-            {
-                return (a * b) / 2;
-            }
+            }*/
             else return 0.0;
+        }
+        public string getA()
+        {
+            return Convert.ToString(a);
+        }
+        public string getB()
+        {
+            return Convert.ToString(b);
+        }
+        public string getC()
+        {
+            return Convert.ToString(c);
+        }
+        public string getH()
+        {
+            return Convert.ToString(h);
         }
         public bool RealityCheck()
         {
-            return (a > b + c) && (b > c + a) && (c > b + a) ? true : false;
+            return (a < b + c) && (b < c + a) && (c < b + a);
         }
         public double Height()
         {
             return (Area() * 2) / a;
         }
-        public double a { get; set; }
-        public double b { get; set; }
-        public double c { get; set; }
-        public double h { get; set; }
-        public double alpha { get; set; }
-        public double beta { get; set; }
-        public double gamma { get; set; }
-        public bool Exists { get; set; }
-        public bool Isosceles { get; set; }
-        public bool Equilateral { get; set; }
+        public string typeDef()
+        {
+            if (a == b && b == c && c == a) return "Равносторонний";
+            else if (a == b || a == c || c == b) return "Равнобедренный";
+            else return "Разносторонний";
+        }
+        public double A { get; set; }
+        public double B { get; set; }
+        public double C { get; set; }
+        public double H { get; set; }
+       /* public double Alpha { get; set; }
+        public double Beta { get; set; }
+        public double Gamma { get; set; }*/
+        public bool Right { get; set; }
+        public bool Ravnostoronnij { get; set; }
+        public bool Raznostoronnij { get; set; }
+        public bool Ravnobedrenniy{ get; set; }
     }
 }
